@@ -1,0 +1,328 @@
+---
+title: "Workshop: SQL in Data Management"
+author: "Anni Liu"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: 
+  html_document:
+    code_folding: hide
+---
+
+# SQL in R
+# Download libraries
+
+
+```{r, eval = FALSE }
+# RSQLite also brings in a dependency: DBI
+install.packages("RSQLite")
+```
+
+
+# Connect to your database and breate a table
+
+```{r}
+library(DBI) 
+library(RSQLite)
+
+rna = read.csv("rna_1.csv")[, 1:500]
+id = 1:8
+phenotype = c(rep("normal", 4), rep("obese", 4))
+sex = c(rep(c("male", "female"), times = 4))
+rna = cbind(id, phenotype, sex, rna)
+
+db = dbConnect(SQLite(), "genetics.db")
+
+dbWriteTable(conn = db, name = "gene_expression", value = rna)
+
+dbListTables(db)
+
+db = dbConnect(SQLite(), "./genetics.db")
+
+dbListTables(db)
+```
+
+```{r}
+dbListFields(db, "gene_expression") 
+```
+
+
+# Read data with `SELECT`
+
+
+```
+SELECT * 
+FROM gene.expression;
+```
+
+```{r}
+query = "
+SELECT * FROM gene_expression;
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+```{r}
+dim(result)
+```
+
+```{r}
+query = "
+SELECT phenotype, ENSMUSG00000000049, ENSMUSG00000000154
+FROM gene_expression;
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+# Filter data with `WHERE`
+
+
+```
+SELECT phenotype, ENSMUSG00000000049, ENSMUSG00000000154 
+FROM gene_expression
+WHERE phenotype == 'obesity';
+```
+
+
+```{r}
+query = "
+SELECT phenotype, ENSMUSG00000000049, ENSMUSG00000000154
+FROM gene_expression
+WHERE phenotype == 'obese';
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+
+```
+SELECT phenotype, sex, ENSMUSG00000000049, ENSMUSG00000000154
+FROM gene_expression
+WHERE (phenotype == 'obese') AND (sex == 'female');
+```
+
+```{r}
+query = "
+SELECT phenotype, sex, ENSMUSG00000000049, ENSMUSG00000000154
+FROM gene_expression
+WHERE (phenotype == 'obese') AND (sex == 'female');
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+
+# Aliases
+
+
+```
+SELECT ENSMUSG00000000049 AS Apoh, ENSMUSG00000000154 AS Slc22a18
+FROM gene_expression
+WHERE (phenotype == 'obese') AND (sex == 'female');
+```
+
+```{r}
+query = "
+SELECT ENSMUSG00000000049 AS Apoh, ENSMUSG00000000154 AS Slc22a18
+FROM gene_expression
+WHERE (phenotype == 'obese') AND (sex == 'female');
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+
+```
+SELECT ENSMUSG00000000049 Apoh, ENSMUSG00000000154 Slc22a18
+FROM gene_expression
+WHERE (phenotype == 'obese') AND (sex == 'female');
+```
+
+```{r}
+query = "
+SELECT ENSMUSG00000000049 Apoh, ENSMUSG00000000154 Slc22a18
+FROM gene_expression
+WHERE (phenotype == 'obese') AND (sex == 'female');
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+# Create another table
+
+```{r, message = FALSE, warning = FALSE }
+lipid = read.csv("lipid_serum_1.csv")
+id = 1:8
+phenotype = c(rep("normal", 4), rep("obese", 4))
+sex = c(rep(c("male", "female"), times = 4))
+lipid = cbind(id, phenotype, sex, lipid)
+
+dbWriteTable(db, "lipid_expression", lipid)
+
+dbListTables(db)
+```
+
+# Join tables together
+
+```
+SELECT *
+FROM gene_expression
+INNER JOIN lipid_expression
+ON gene_expression.phenotype == lipid_expression.phenotype;
+```
+
+
+```{r}
+query = "
+  SELECT *
+  FROM gene_expression
+  INNER JOIN lipid_expression 
+  ON gene_expression.id == lipid_expression.id;
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+
+# The Rabbit hole: subqueries
+
+
+```
+SELECT *
+FROM gene_expression
+INNER JOIN lipid_expression
+ON gene_expression.phenotype == lipid_expression.phenotype;
+```
+
+We could rewrite this query in terms of a subquery:
+
+```
+SELECT *
+FROM gene_expression old
+INNER JOIN (
+  SELECT *
+  FROM lipid_expression
+) new
+ON old.phenotype == new.phenotype;
+```
+
+```{r}
+query = "
+SELECT *
+FROM gene_expression old
+INNER JOIN (
+  SELECT *
+  FROM lipid_expression
+) new
+ON old.id == new.id;
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+```
+SELECT * FROM lipid_expression
+WHERE phenotype IN (
+  SELECT phenotype FROM gene_expression
+  WHERE ENSMUSG00000000049 > 5
+)
+```
+
+```{r}
+query = "
+SELECT * FROM lipid_expression
+WHERE phenotype IN (
+  SELECT phenotype FROM gene_expression
+  WHERE ENSMUSG00000000049 > 5
+)
+"
+
+result = dbGetQuery(db, query)
+head(result)
+```
+
+
+# Removing tables
+
+
+```{r, eval = FALSE}
+dbSendQuery(db, "DROP TABLE lipid_expression")
+```
+
+
+# Clean up after yourself
+
+```{r}
+dbDisconnect(db)
+```
+
+# Bonus: SQL in Python
+```{r}
+Sys.setenv(RETICULATE_PYTHON = "/Users/anniliu/mambaforge/bin/python")
+RETICULATE_PYTHON = "/Users/anniliu/mambaforge/bin/python"
+library(reticulate)
+py_config() 
+```
+
+```{python eval=FALSE}
+# If you are using python2, open a terminal, and enter the following commands:
+pip install db-sqlite3
+```
+
+```{python}
+# If you are using python3, sqlite3 is built in into it.
+import sqlite3
+```
+
+```{python}
+conn = sqlite3.connect('genetics2.db')
+c = conn.cursor()
+
+import pandas as pd
+rna = pd.read_csv("rna_1.csv").iloc[:, 0:499]
+lis = ["normal", "obese"]
+times = (4, 4)
+phenotype = sum(([x]*y for x,y in zip(lis, times)),[])
+lis = ["male", "female"]
+sex = lis*4
+ind = list(range(1, 9, 1))
+df = pd.DataFrame(list(zip(ind, sex, phenotype)), columns = ["id", "sex", "phenotype"])
+rna = pd.concat([df, rna], axis=1)
+
+rna.to_sql('gene_expression', conn, if_exists='append', index = False)
+```
+
+```{python}
+result = c.execute('''SELECT * FROM gene_expression;''').fetchall()
+result = list(result)
+result = pd.DataFrame(result, columns = list(rna.columns)) 
+
+result = pd.read_sql('''
+  SELECT *
+  FROM gene_expression;
+''', conn)
+result
+```
+
+```{python}
+lipid = pd.read_csv("lipid_serum_1.csv")
+lipid = pd.concat([df, lipid], axis=1)
+
+lipid.to_sql("lipid_expression", conn, if_exists = "append", index = False)
+
+result = pd.read_sql('''
+  SELECT *
+  FROM gene_expression
+  INNER JOIN lipid_expression 
+  ON gene_expression.id == lipid_expression.id;
+''', conn)
+result
+```
