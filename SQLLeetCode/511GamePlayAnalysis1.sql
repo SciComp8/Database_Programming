@@ -12,4 +12,4 @@ SELECT DISTINCT
       A.event_date
   ) AS first_login
 FROM
-  Activity A;
+  activity AS A;
