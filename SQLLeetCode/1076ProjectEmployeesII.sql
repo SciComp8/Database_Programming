@@ -9,7 +9,7 @@ HAVING COUNT(p.employee_id) =
          GROUP BY project_id) AS p1
     );
 
-# Approach 1
+# Approach 2
 SELECT TOP 1 WITH TIES project_id
 FROM Project
 GROUP BY project_id
