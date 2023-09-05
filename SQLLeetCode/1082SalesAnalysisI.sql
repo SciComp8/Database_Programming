@@ -1,9 +1,9 @@
-select distinct seller_id
-from Sales
-group by seller_id
-having sum(price) = (
-    select sum(price) as max_price
-    from Sales
-    group by seller_id
-    order by max_price desc
-    limit 1)
+SELECT DISTINCT seller_id
+FROM Sales
+GROUP BY seller_id
+HAVING sum(price) = (
+    SELECT sum(price) AS max_price
+    FROM Sales
+    GROUP BY seller_id
+    ORDER BY max_price DESC
+    LIMIT 1)
