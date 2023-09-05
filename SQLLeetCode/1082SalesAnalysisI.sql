@@ -6,4 +6,4 @@ HAVING sum(price) = (
     FROM Sales
     GROUP BY seller_id
     ORDER BY max_price DESC
-    LIMIT 1)
+    LIMIT 1);
