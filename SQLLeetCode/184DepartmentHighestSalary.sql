@@ -1,4 +1,4 @@
-# Write your MySQL query statement below
+# a WITH clause defines a temporary data set whose output is available to be referenced in subsequent queries.
 WITH max_salary AS (
     SELECT departmentId, max(salary) AS max_salary
     FROM Employee
