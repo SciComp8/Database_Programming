@@ -10,4 +10,4 @@ FROM max_salary AS ms
 JOIN employee AS e
     ON ms.departmentId = e.departmentid AND ms.max_salary = e.salary
 JOIN department AS d
-  ON e.departmentId = d.id;
+    ON e.departmentId = d.id;
