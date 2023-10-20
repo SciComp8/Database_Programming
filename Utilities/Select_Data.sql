@@ -5,7 +5,7 @@
 #HAVING
 #ORDER BY
 #Aggregate function: COUNT()/SUM()/AVG()/MIN()/MAX()
-#None-aggregate function: ABS()/MOD()/CEILING()/ADDDATE()/ISNULL()
+#None-aggregate function: ABS()/MOD()/CEILING()/ADDDATE()/ISNULL()/LEFT()/SWITCH()[SQL]
 # More: https://www.techonthenet.com/mysql/functions/index.php
   
 SELECT var1, var2
@@ -56,5 +56,17 @@ FROM table2;
 SELECT IFF(var1='Yes', 1, 0) AS var1_01
 FROM table2;
 
-#SELECT ABS(30 * -1);
+SELECT ABS(30 * -1);
+
+#Concatenate the first and last names
+SELECT first_name, last_name, first_name & ' ' & last_name AS full_name
+FROM table2;
+
+#Create a new column whereby if the first letter of the name is C, the value returns 1; if the first letter of the name is A, the value returns 0
+SELECT name, 
+CASE WHEN LEFT(name, 1) = 'C' THEN 1
+WHEN LEFT(name, 1) = 'A' THEN 0
+ELSE NULL
+END AS name_01
+FROM table2;
 
