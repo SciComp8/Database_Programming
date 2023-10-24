@@ -19,6 +19,13 @@ FROM first_table AS f
   INNER JOIN second_table AS s
   ON f.common_var = s.common_var;
 
+#Find how many times a product is ordered
+SELECT p.product_name, o.product_id, COUNT(o.order_id) AS product_count
+FROM Product as p
+  INNER JOIN [Order Details] AS o
+  ON p.product_id = o.product_id
+GROUP BY p.product_name, o.product_id;
+
 #Join two tables on multiple common fields
 SELECT f.var_1, s.var_2
 FROM first_table AS f
