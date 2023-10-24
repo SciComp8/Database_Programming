@@ -36,6 +36,14 @@ FROM table1
 GROUP BY var1
 HAVING SUM(var2) <= 200; 
 
+#Select products with at least 30 orders
+SELECT p.product_name, o.product_id, COUNT(o.order_id) AS product_count
+FROM Product as p
+  INNER JOIN [Order Details] AS o
+  ON p.product_id = o.product_id
+GROUP BY p.product_name, o.product_id
+HAVING COUNT(o.order_id) >= 30;
+
 SELECT var1, var2
 FROM table1
 ORDER BY var2;
