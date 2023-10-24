@@ -30,6 +30,15 @@ SELECT var1, SUM(var2) AS sum_var2 #Add an alias
 FROM table1
 GROUP BY var1;
 
+#More complicated example:
+SELECT p.supplier_id, p.product_name, o.product_id, COUNT(o.order_id) AS product_count
+FROM Product as p
+  INNER JOIN [Order Details] AS o
+  ON p.product_id = o.product_id
+GROUP BY p.supplier_id, p.product_name, o.product_id
+HAVING COUNT(o.order_id) >= 30
+ORDER BY p.supplier_id;
+
 #HAVING filters the results of an aggregated function
 SELECT var1, SUM(var2) AS sum_var2
 FROM table1
