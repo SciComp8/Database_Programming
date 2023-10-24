@@ -9,6 +9,13 @@ WHERE patient_id NOT IN
   (SELECT patient_id
    FROM follow);
 
+#Another solution using the LEFT JOIN
+SELECT p.patient_id, p.treatment
+FROM patients as p
+  LEFT JOIN visits as v
+  ON p.patient_id = v.patient_id
+WHERE v.patient_id IS NULL;
+
 #Subquery in the FROM clause generates a derived table to select data from
 #This is useful when we need to select from aggregated data
 #Example: want a list of best-visited hospital departments in the past month
