@@ -22,6 +22,13 @@ FROM Employee
 WHERE Salary < (Select MAX(Salary) FROM Employee);
 #WHERE Salary NOT IN (SELECT MAX(Salary) FROM Employee);
 
+#Example 3: find the customers who never place orders
+SELECT name AS Customers
+FROM Customers AS C
+WHERE C.id NOT IN
+  (SELECT customerID
+   FROM Orders);
+
 #Subquery in the FROM clause generates a derived table to select data from
 #This is useful when we need to select from aggregated data
 #Example: want a list of best-visited hospital departments in the past month
