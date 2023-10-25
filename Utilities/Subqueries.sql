@@ -29,6 +29,17 @@ WHERE C.id NOT IN
   (SELECT customerID
    FROM Orders);
 
+#Example 4: find employees who have the highest salary in each of the departments
+#https://leetcode.com/problems/department-highest-salary/
+SELECT d.Name AS Department, e.Name As Employee, e.Salary AS Salary
+FROM Employee AS e
+LEFT JOIN Department AS d
+ON e.DepartmentId = d.Id
+WHERE (e.DepartmentId, e.Salary) in 
+  (SELECT DepartmentId, max(Salary)
+   FROM Employee
+   GROUP BY DepartmentId);
+
 #Subquery in the FROM clause generates a derived table to select data from
 #This is useful when we need to select from aggregated data
 #Example: want a list of best-visited hospital departments in the past month
