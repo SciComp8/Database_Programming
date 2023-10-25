@@ -23,8 +23,7 @@ ALTER TABLE table_name
 ALTER TABLE table_name
   MODIFY var_name_1 new_data_type_1,
   MODIFY var_name_2 new_data_type_2,
-  MODIFY var_name_3 new_data_type_3,
-  ;
+  MODIFY var_name_3 new_data_type_3;
 
 #Rename one or more variables
 ALTER TABLE table_name
