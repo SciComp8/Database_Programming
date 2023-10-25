@@ -33,3 +33,11 @@ ALTER TABLE table_name
   RENAME COLUMN var_old_name_1 to var_new_name_1,
   RENAME COLUMN var_old_name_2 to var_new_name_2,
   RENAME COLUMN var_old_name_3 to var_new_name_3;
+
+#Add a primary key to an existing table
+ALTER TABLE table_name
+  ADD CONSTRAINT pk_name PRIMARY KEY(var_as_pk);
+
+#Remove a primary key from an existing table
+ALTER TABLE table_name
+  DROP CONSTRAINT pk_name;
