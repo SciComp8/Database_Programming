@@ -6,7 +6,7 @@ Reference https://www.w3schools.com/sql/sql_datatypes.asp
 - SMALLINT(size)
 - MEDIUMINT(size)
 - INT(size)
-  A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The size parameter specifies the maximum display width (which is 255)
+  ```A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The size parameter specifies the maximum display width (which is 255)```
 - BIGINT(size)
 
 ## Numeric data types for decimals
