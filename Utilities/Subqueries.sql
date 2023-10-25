@@ -1,7 +1,6 @@
 #A SELECT query that is nested within one of the caluses (WHERE/HAVING/FROM/SELECT) of another query
 
 #Subquery in the WHERE clause generates values or lists to be used in the filtering criteria
-#There can only be 1 varibale in the SELECT clause for this type of subquery
 #Example 1: obtain information on patients who have no records in the follow-up table
 SELECT patient_id, treatment
 FROM patients
@@ -31,6 +30,7 @@ WHERE C.id NOT IN
 
 #Example 4: find employees who have the highest salary in each of the departments
 #https://leetcode.com/problems/department-highest-salary/
+#Main idea: left join 2 tables from a subquery that returns the maximum salary in each department
 SELECT d.Name AS Department, e.Name As Employee, e.Salary AS Salary
 FROM Employee AS e
 LEFT JOIN Department AS d
