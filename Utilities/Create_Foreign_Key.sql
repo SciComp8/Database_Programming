@@ -8,4 +8,4 @@ CREATE TABLE child_table_name(
     ON UPDATE CASCADE
 );
 
-#TD: ON UPDATE CASCADE
+#TD: ON UPDATE CASCADE: sync the parent table and child table
