@@ -8,7 +8,7 @@ ALTER TABLE child_table_name
 #Add a foreign key with the assigned name (fk_name) into an existing table
 ALTER TABLE child_table_name
 ADD CONSTRAINT fk_name FOREIGN KEY (fk_column)
-   REFERENCES parent_table_name(pk_column)
+   REFERENCES parent_table_name(pk_column);
 
 #Remove a foreign key from an existing table
 ALTER TABLE child_table_name
