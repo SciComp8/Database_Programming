@@ -22,5 +22,16 @@ CREATE VIEW member_contacts AS
 CREATE OR REPLACE VIEW view_name AS
   SELECT_query;
 
+#Example: rename the columns in the view
+CREATE OR REPLACE VIEW member_contacts (first_name, last_name, email_address, cell_phone_number, institute_name) AS
+    SELECT first_name, last_name, email, phone_number, institute_name
+    FROM member AS m
+      INNER JOIN institute AS i
+      ON m.institute_id = i.institute_id
+    ORDER BY first_name;
+
 #Delete a view
 DROP VIEW view_name;
+
+#Example:
+DROP VIEW member_contacts;
