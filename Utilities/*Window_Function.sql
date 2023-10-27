@@ -43,7 +43,7 @@ SUM()
 #Window function syntax
 #window_function_name: ROW_NUMBER(), RANK(), SUM(), AVG(), COUNT(), MAX(), MEAN(), etc
 #expression: target expression or column on which the window function operates
-#OVER clause: defines window partitions to form the groups of rows or specifies the orders of rows in a partition. The OVER clause consists of three clauses: partition, order, and frame clauses. A frame is the subset of the current partition.
+#OVER clause: defines window partitions to form the groups of rows or specifies the orders of rows in a partition. The OVER clause consists of three clauses: partition, order, and frame clauses. A frame is the subset of the current partition
 window_function_name ( expression ) OVER (
     partition_clause
     order_clause
@@ -99,5 +99,19 @@ FROM (
 	) AS t
 WHERE salary_rank = 1;
 
+#LAG(): access data of the previous row, or from the second row before the current row, or from the third row before current row; very useful for calculating the difference between the current row and the previous row
+#Example: returns both the current and previous year’s salary of all employees
+SELECT 
+	employee_id, 
+	fiscal_year, 
+	salary,
+	LAG(salary) OVER (
+		PARTITION BY employee_id 
+		ORDER BY fiscal_year) AS previous_salary
+FROM basic_pays;
+#PARTITION BY clause: divide the result set into groups by employee ID
+#ORDER BY clause: sort the rows by fiscal year in ascending order within each group
+#LAG(): the first row in each group was NULL because there was no previous year’s salary; The second and third rows got the salary from the first and second rows and populate them into the previous_salary column
+#
 
 
