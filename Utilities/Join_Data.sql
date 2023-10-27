@@ -73,7 +73,7 @@ FROM (first_table AS f
   ON s.common_var_1 = t.common_var_1
     AND s.common_var_2 = t.common_var_2;
 
-#Cross join
+#Cross join: unlike the inner/left/right/full join, the cross join does not have a join condition
 SELECT *
 FROM table_1
 CROSS JOIN table_2;
