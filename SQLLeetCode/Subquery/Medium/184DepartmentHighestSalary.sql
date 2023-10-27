@@ -9,18 +9,17 @@ WHERE (e.DepartmentId, e.Salary) in
    GROUP BY DepartmentId);
 
 #Alternative solution:
-SELECT *
+SELECT Department, Employee, Salary
 FROM (
 	SELECT 
-		d.Name AS Department, 
-		e.Name As Employee, 
-		e.Salary AS Salary,
+		d.name AS Department, 
+		e.name As Employee, 
+		e.salary AS Salary,
 		DENSE_RANK() OVER (
-			PARTITION BY e.DepartmentId
+			PARTITION BY e.departmentId
 			ORDER BY e.salary DESC) AS salary_rank
-	FROM 
-		Employees AS e
-		LEFT JOIN Department AS d 
-			ON e.DepartmentId = d.Id
+	FROM Employee AS e
+	LEFT JOIN Department AS d 
+		ON e.departmentId = d.id
 	) AS t
 WHERE salary_rank = 1;
