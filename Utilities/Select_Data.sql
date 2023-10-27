@@ -22,6 +22,7 @@ SELECT SUM(var2)
 FROM table1;
   
 #Do the summation of var2 per categorical level in var1
+#We add all non-aggregated variables to the GROUP BY clause
 SELECT var1, SUM(var2)
 FROM table1
 GROUP BY var1;
