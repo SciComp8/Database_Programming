@@ -45,6 +45,7 @@ WHERE (e.DepartmentId, e.Salary) in
 #Example: want a list of best-visited hospital departments in the past month
 #Solution: 1. aggregate the data to get a count of each doctor visited by patients in the past 30 days, and select doctors who have at least 60 times visits in the past 30 days; 
 #2. select the distinct list of hospital department from the derived table in 1
+#Ref: Common_Table_Expression.sql
 
 SELECT DISTINCT department_id
 FROM
@@ -53,7 +54,7 @@ SELECT h.department_id, h.department_name, d.doctor_id, COUNT(d.visit_id) AS vis
 FROM Hospital as h
   INNER JOIN [Doctor Details] AS d
   ON h.doctor_id = d.doctor_id
-GROUP BY h.department_id, h.department_name,d.doctor_id
+GROUP BY h.department_id, h.department_name, d.doctor_id
 HAVING COUNT(d.visit_id) >= 60
 ORDER BY h.department_id
 );
