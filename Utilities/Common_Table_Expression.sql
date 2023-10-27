@@ -1,4 +1,4 @@
-#Traditional subqueries
+#Traditional derived table subqueries
 SELECT DISTINCT department_id
 FROM
 (  
