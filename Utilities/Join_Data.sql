@@ -3,16 +3,30 @@
 #Left joins: return all of the records from the table on the left along with matching records form the table on the right
 #Right joins: return all of the records from the table on the right along with matching records form the table on the left
 #When more than one table is involved in a query, table references (e.g., full name or alias) must precede variable names in the SELECT clause
-  
+
+#Inner join
 SELECT first_table.var_1, second_table.var_2
 FROM first_table
   INNER JOIN second_table
   ON first_table.common_var = second_table.common_var;
 
+#More simplified syntax using 'USING', if the common field between two tables has the same name
+SELECT first_table.var_1, second_table.var_2
+FROM first_table
+  INNER JOIN second_table
+    USING(common_var);
+
+#Left join
 SELECT first_table.var_1, second_table.var_2
 FROM first_table
   LEFT JOIN second_table
   ON first_table.common_var = second_table.common_var;
+
+#More simplified syntax using 'USING', if the common field between two tables has the same name
+SELECT first_table.var_1, second_table.var_2
+FROM first_table
+  LEFT JOIN second_table
+    USING(common_var);
 
 SELECT f.var_1, s.var_2
 FROM first_table AS f
