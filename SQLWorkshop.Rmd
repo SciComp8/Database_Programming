@@ -1,5 +1,5 @@
 ---
-title: "Workshop: SQL in Data Management"
+title: "Workshop: SQL in R and Python"
 author: "Anni Liu"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output: 
