@@ -55,4 +55,5 @@ FROM Hospital as h
   ON h.doctor_id = d.doctor_id
 GROUP BY h.department_id, h.department_name,d.doctor_id
 HAVING COUNT(d.visit_id) >= 60
-ORDER BY h.department_id);
+ORDER BY h.department_id
+);
