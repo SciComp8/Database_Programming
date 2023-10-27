@@ -8,7 +8,8 @@ WHERE patient_id NOT IN
   (SELECT patient_id
    FROM follow);
 
-#Alternative solution using the LEFT JOIN
+#Alternative solution using the LEFT JOIN [recommended]
+#Obtain information on patients who have no records in the follow-up table
 SELECT p.patient_id, p.treatment
 FROM patients as p
   LEFT JOIN visits as v
