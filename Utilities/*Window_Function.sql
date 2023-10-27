@@ -112,6 +112,34 @@ FROM basic_pays;
 #PARTITION BY clause: divide the result set into groups by employee ID
 #ORDER BY clause: sort the rows by fiscal year in ascending order within each group
 #LAG(): the first row in each group was NULL because there was no previous year’s salary; The second and third rows got the salary from the first and second rows and populate them into the previous_salary column
-#
+
+SELECT 
+	employee_id, 
+	fiscal_year, 
+	salary,
+	LAG(salary,1,0) OVER (
+		PARTITION BY employee_id 
+		ORDER BY fiscal_year) AS previous_salary
+FROM basic_pays;
+#LAG(salary,1,0): retrieve the salary in the previous row; and if no preceding row is found, 0 is returned
+
+#A more complicated case:
+SELECT 
+	employee_id, 
+	fiscal_year, 
+	salary,
+	previous_salary,
+	CONCAT(ROUND(( salary - previous_salary ) * 100 / previous_salary, 0),'%')  YoY
+FROM
+	( SELECT 
+		employee_id, 
+		fiscal_year, 
+		salary,
+		LAG(salary,1,0) OVER (
+			PARTITION BY employee_id 
+			ORDER BY fiscal_year) AS previous_salary
+	FROM
+		basic_pays
+	) AS t;    
 
 
