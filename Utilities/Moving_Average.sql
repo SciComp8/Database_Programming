@@ -13,7 +13,6 @@ FROM stock_price;
 #ROWS BETWEEN 2 PRECEDING AND CURRENT ROW: this syntax defines the window frame: the size of the window in our example is three. For each given row, we take the row itself and the two previous rows, and we calculate the average price from those three rows
 #!Data should not have any gaps in dates. For each day, we need to calculate the average of the prices from that day and the two previous days. If there are missing dates in the data, this analysis will not make sense
 
-
 SELECT *,
 	AVG(Price) OVER(
 		ORDER BY Date
@@ -22,3 +21,12 @@ SELECT *,
 		ORDER BY Date
      		ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS thirty_day_moving_average
 FROM stock_price;
+
+#Example: calculate the seven-day moving average of COVID cases
+SELECT *,
+      AVG(confirmed_day) OVER(
+          PARTITION BY country #Calculate the seven-day averages for each country
+          ORDER BY date
+          ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)
+          AS seven_day_moving_average
+FROM confirmed_covid;
