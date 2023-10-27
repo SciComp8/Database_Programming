@@ -17,3 +17,5 @@ FROM best_doctor;
 SELECT doctor_id
 FROM best_doctor;
 
+#Delete a temporary table
+DROP TEMPORARY TABLE best_doctor;
