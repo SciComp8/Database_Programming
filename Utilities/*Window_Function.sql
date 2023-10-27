@@ -99,7 +99,8 @@ FROM (
 	) AS t
 WHERE salary_rank = 1;
 
-#LAG(): access data of the previous row, or from the second row before the current row, or from the third row before current row; very useful for calculating the difference between the current row and the previous row
+#LAG(): access data of the previous row, or from the second row before the current row, or from the third row before current row; 
+#very useful for calculating the difference between the current row and the previous row
 #Example: returns both the current and previous year’s salary of all employees
 SELECT 
 	employee_id, 
@@ -142,4 +143,8 @@ FROM
 		basic_pays
 	) AS t;    
 
+#LEAD(): access data of the next row, or the second row that follows the current row, or the third row that follows the current row, and so on;
+#very useful for calculating the difference between the value of the current row and the value of the following row
+LAG(salary,7,0) OVER()
+#Retrieve the salary 7 rows ahead
 
