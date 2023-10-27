@@ -3,7 +3,7 @@
 #Self joins: a special type of inner joins, where a table is joined to itself; useful when we want to convert a long table to a wide table, and then perfrom calculations or comparisons in this wide table
 #Left joins: return all of the records from the table on the left along with matching records form the table on the right
 #Right joins: return all of the records from the table on the right along with matching records form the table on the left
-#Cross joins: we want all possible combinations of rows between tables
+#Cross joins: return a Cartesian product of two tables, in which each row in the first table is paired with each row in the second table. Suppose the first table has n rows and the second table has m rows, the result of the cross join of the two tables have n x m rows
 #Full joins: a combination of a left join and right join
 #When more than one table is involved in a query, table references (e.g., full name or alias) must precede variable names in the SELECT clause
 
