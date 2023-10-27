@@ -1,5 +1,6 @@
 #When we join the tables, there always needs to be a column that is common to both of the tables
 #Inner joins: return only the records where data exists in the joined field in both tables
+#Self joins: a special type of inner joins, where a table is joined to itself; useful when we want to convert a long table to a wide table, and then perfrom calculations or comparisons in this wide table
 #Left joins: return all of the records from the table on the left along with matching records form the table on the right
 #Right joins: return all of the records from the table on the right along with matching records form the table on the left
 #When more than one table is involved in a query, table references (e.g., full name or alias) must precede variable names in the SELECT clause
