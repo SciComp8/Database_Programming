@@ -81,7 +81,23 @@ SELECT
 FROM 
 	employees;
 
-
+#Find employees who have the highest salary in their departments
+SELECT *
+FROM (
+	SELECT 
+		first_name, 
+		last_name, 
+		department_name,
+		salary, 
+		DENSE_RANK() OVER (
+			PARTITION BY department_name
+			ORDER BY salary DESC) salary_rank
+	FROM 
+		employees AS e
+		INNER JOIN departments AS d 
+			ON d.department_id = e.department_id
+	) AS t
+WHERE salary_rank = 1;
 
 
 
