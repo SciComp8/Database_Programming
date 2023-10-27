@@ -148,3 +148,11 @@ FROM
 LAG(salary,7,0) OVER()
 #Retrieve the salary 7 rows ahead
 
+SELECT *,
+	AVG(Price) OVER(
+		ORDER BY Date
+     		ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS moving_average
+FROM stock_price;
+
+#ROWS BETWEEN 2 PRECEDING AND CURRENT ROW: this syntax defines the window frame: the size of the window in our example is three. For each given row, we take the row itself and the two previous rows, and we calculate the average price from those three rows
+#!Data should not have any gaps in dates. For each day, we need to calculate the average of the prices from that day and the two previous days. If there are missing dates in the data, this analysis will not make sense
