@@ -181,7 +181,9 @@ CREATE TEMPORARY TABLE dna_dynamic AS
 			WHEN visit_time = 2 THEN 'Month 12'
 			WHEN visit_time = 8 THEN 'Month 18'
 			ELSE 'Month 24'
-		END AS visit_type, follow_dna_ratio, (follow_dna_ratio - LAG(follow_dna_ratio, 1) OVER(PARTITION BY study_id ORDER BY visit_time)) AS dna_change
+		END AS visit_type, 
+		follow_dna_ratio, 
+		(follow_dna_ratio - LAG(follow_dna_ratio, 1) OVER(PARTITION BY study_id ORDER BY visit_time)) AS dna_change
     FROM visit_info
 );
 
@@ -198,18 +200,20 @@ WITH dna_cd4_status AS
 			WHEN visit_time = 2 THEN 'Month 12'
 			WHEN visit_time = 8 THEN 'Month 18'
 			ELSE 'Month 24'
-		END AS visit_type, follow_dna_ratio, follow_cd4,
+		END AS visit_type, 
+		follow_dna_ratio, 
+		follow_cd4,
 		CASE 
 			WHEN follow_dna_ratio - LAG(follow_dna_ratio, 1) OVER(PARTITION BY study_id) IS NULL THEN 'Not Applicable'
 			WHEN follow_dna_ratio - LAG(follow_dna_ratio, 1) OVER(PARTITION BY study_id) > 0 THEN 'MtDNA Increase'
-            WHEN follow_dna_ratio - LAG(follow_dna_ratio, 1) OVER(PARTITION BY study_id) = 0 THEN 'MtDNA Stable'
+            		WHEN follow_dna_ratio - LAG(follow_dna_ratio, 1) OVER(PARTITION BY study_id) = 0 THEN 'MtDNA Stable'
 			ELSE 'MtDNA Decrease'
 		END AS dna_status,
-        CASE
+        	CASE
 			WHEN follow_cd4 - LAG(follow_cd4, 1) OVER(PARTITION BY study_id) IS NULL THEN 'Not Applicable'
-            WHEN follow_cd4 - LAG(follow_cd4, 1) OVER(PARTITION BY study_id) > 0 THEN 'CD4 Increase'
-            WHEN follow_cd4 - LAG(follow_cd4, 1) OVER(PARTITION BY study_id) = 0 THEN 'CD4 Stable'
-            ELSE 'CD4 Decrease'
+            		WHEN follow_cd4 - LAG(follow_cd4, 1) OVER(PARTITION BY study_id) > 0 THEN 'CD4 Increase'
+            		WHEN follow_cd4 - LAG(follow_cd4, 1) OVER(PARTITION BY study_id) = 0 THEN 'CD4 Stable'
+            		ELSE 'CD4 Decrease'
 		END AS cd4_status
 	FROM visit_info
 )
