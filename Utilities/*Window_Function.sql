@@ -4,7 +4,31 @@
 
 #OVER()
 #Example: add the overall average to each row
-SELECT patient_id, start_date, end_date,
+SELECT 
+  patient_id, 
+  start_date, 
+  end_date,
   DATEDIFF(end_date, start_date) AS duration_days,
   AVG(DATEDIFF(end_date, start_date)) OVER() AS avg_duration
 FROM date_table;
+
+#SUM() function is used as a window function
+SELECT
+    first_name,
+    last_name,
+    salary,
+    SUM(salary) OVER() AS sum_salary
+FROM employees;
+
+#Window function syntax
+window_function_name ( expression ) OVER (
+    partition_clause
+    order_clause
+    frame_clause
+)
+
+#window_function_name: ROW_NUMBER(), RANK(), SUM(), AVG()
+#expression: target expression or column on which the window function operates
+
+
+
