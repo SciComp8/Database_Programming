@@ -15,7 +15,18 @@ FROM first_table
 SELECT first_table.var_1, second_table.var_2
 FROM first_table
   INNER JOIN second_table
-    USING(common_var);
+    USING (common_var);
+
+#Self join
+SELECT 
+  a.patient_id, 
+  a.virus_load AS wk_0_virus,
+  b.virus_load AS wk_6_virus,
+  b.virus_load - a.virus_load AS virus_load_change
+FROM patient AS a
+INNER JOIN patient AS b
+  USING (patient_id)
+WHERE a.visit_week = 0 AND b.visit_week = 6;
 
 #Left join
 SELECT first_table.var_1, second_table.var_2
@@ -27,7 +38,7 @@ FROM first_table
 SELECT first_table.var_1, second_table.var_2
 FROM first_table
   LEFT JOIN second_table
-    USING(common_var);
+    USING (common_var);
 
 SELECT f.var_1, s.var_2
 FROM first_table AS f
