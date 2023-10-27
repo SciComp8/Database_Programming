@@ -3,8 +3,11 @@
 #Self joins: a special type of inner joins, where a table is joined to itself; useful when we want to convert a long table to a wide table, and then perfrom calculations or comparisons in this wide table
 #Left joins: return all of the records from the table on the left along with matching records form the table on the right
 #Right joins: return all of the records from the table on the right along with matching records form the table on the left
+#Cross joins: we want all possible combinations of rows between tables
+#Full joins: a combination of a left join and right join
 #When more than one table is involved in a query, table references (e.g., full name or alias) must precede variable names in the SELECT clause
 
+  
 #Inner join
 SELECT first_table.var_1, second_table.var_2
 FROM first_table
@@ -40,6 +43,7 @@ FROM first_table
   LEFT JOIN second_table
     USING (common_var);
 
+#Use table aliases
 SELECT f.var_1, s.var_2
 FROM first_table AS f
   INNER JOIN second_table AS s
@@ -69,4 +73,21 @@ FROM (first_table AS f
   ON s.common_var_1 = t.common_var_1
     AND s.common_var_2 = t.common_var_2;
 
+#Cross join
+SELECT *
+FROM table_1
+CROSS JOIN table_2;
+
+#Full join
+SELECT patient_id, age
+FROM patient
+LEFT JOIN lab_result
+  USING (patient_id)
+
+UNION
+
+SELECT patient_id, age
+FROM patient
+RIGHT JOIN lab_result
+  USING (patient_id);
 
