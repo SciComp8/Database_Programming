@@ -220,4 +220,4 @@ WITH dna_cd4_status AS
 
 SELECT *
 FROM dna_cd4_status
-WHERE study_id = 1;
+WHERE study_id = 1; 
